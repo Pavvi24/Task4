@@ -1,17 +1,63 @@
 const express = require('express');
 const router = express.Router();
-const {
-  getProducts, getProduct, createProduct, updateProduct,
-  deleteProduct, addReview, getCategories
-} = require('../controllers/productController');
-const { protect, authorize } = require('../middleware/auth');
+const Product = require('../models/Product');
 
-router.get('/categories', getCategories);
-router.get('/', getProducts);
-router.get('/:id', getProduct);
-router.post('/', protect, authorize('admin'), createProduct);
-router.put('/:id', protect, authorize('admin'), updateProduct);
-router.delete('/:id', protect, authorize('admin'), deleteProduct);
-router.post('/:id/reviews', protect, addReview);
+// ✅ GET ALL PRODUCTS (with filters, pagination, featured)
+router.get('/', async (req, res) => {
+  try {
+    const { featured, page = 1, limit = 12 } = req.query;
+
+    let query = {};
+
+    // Handle featured filter
+    if (featured === 'true') {
+      query.isFeatured = true;
+    }
+
+    // Pagination
+    const skip = (page - 1) * limit;
+
+    const products = await Product.find(query)
+      .skip(skip)
+      .limit(parseInt(limit));
+
+    const total = await Product.countDocuments(query);
+
+    res.json({
+      success: true,
+      products,
+      pagination: {
+        page: parseInt(page),
+        limit: parseInt(limit),
+        total,
+        pages: Math.ceil(total / limit)
+      }
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+// ✅ GET PRODUCT CATEGORIES
+router.get('/categories', async (req, res) => {
+  try {
+    const categories = await Product.distinct('category');
+
+    res.json({
+      success: true,
+      categories
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+});
 
 module.exports = router;
