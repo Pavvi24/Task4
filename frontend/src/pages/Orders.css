@@ -1,0 +1,83 @@
+.orders-page, .order-detail-page { padding: 32px 0 64px; }
+
+.no-orders {
+  text-align: center; padding: 80px 20px;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+}
+.no-orders span { font-size: 56px; }
+.no-orders h2 { font-size: 22px; font-weight: 700; }
+.no-orders p { color: var(--text-secondary); }
+
+.orders-list { display: flex; flex-direction: column; gap: 16px; }
+
+.order-card { padding: 20px; display: flex; flex-direction: column; gap: 14px; transition: var(--transition); }
+.order-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+.order-card-header { display: flex; justify-content: space-between; align-items: center; }
+.order-number { font-size: 15px; font-weight: 700; display: block; }
+.order-date { font-size: 13px; color: var(--text-secondary); }
+
+.order-card-items { display: flex; gap: 8px; align-items: center; }
+.order-thumb { width: 48px; height: 48px; object-fit: cover; border-radius: 8px; border: 1px solid var(--border); }
+.more-items { width: 48px; height: 48px; background: var(--bg-tertiary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; color: var(--text-secondary); font-weight: 600; }
+
+.order-card-footer { display: flex; justify-content: space-between; align-items: center; }
+.order-items-count { font-size: 14px; color: var(--text-secondary); }
+.order-total { font-size: 18px; font-weight: 700; }
+
+/* Order Detail */
+.back-btn { background: transparent; font-size: 14px; color: var(--text-secondary); margin-bottom: 8px; display: block; }
+.back-btn:hover { color: var(--accent); }
+
+.order-detail-layout { display: grid; grid-template-columns: 1fr 300px; gap: 24px; align-items: start; }
+
+.order-main { display: flex; flex-direction: column; gap: 20px; }
+
+.status-card { padding: 24px; }
+.status-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.tracking { font-size: 13px; color: var(--text-secondary); }
+
+.status-timeline { display: flex; flex-direction: column; gap: 0; border-left: 2px solid var(--border); margin-left: 8px; padding-left: 20px; }
+.timeline-item { position: relative; padding-bottom: 16px; }
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  position: absolute; left: -29px; top: 4px;
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--accent); border: 2px solid #fff;
+  box-shadow: 0 0 0 2px var(--accent);
+}
+.timeline-content strong { font-size: 14px; font-weight: 600; }
+.timeline-content p { font-size: 13px; color: var(--text-secondary); margin: 2px 0; }
+.timeline-time { font-size: 12px; color: var(--text-light); }
+
+.items-card { padding: 24px; }
+.items-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+.order-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border-light); }
+.order-item:last-child { border-bottom: none; }
+.order-item img { width: 64px; height: 64px; object-fit: cover; border-radius: 8px; flex-shrink: 0; }
+.order-item-info { flex: 1; }
+.order-item-name { font-size: 14px; font-weight: 600; color: var(--text-primary); display: block; }
+.order-item-name:hover { color: var(--accent); }
+.order-item-price { font-size: 13px; color: var(--text-secondary); }
+
+.order-sidebar { display: flex; flex-direction: column; gap: 16px; }
+.summary-card { padding: 20px; }
+.summary-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 16px; }
+.summary-rows { display: flex; flex-direction: column; gap: 8px; border-bottom: 1px solid var(--border); padding-bottom: 12px; margin-bottom: 12px; }
+.summary-row { display: flex; justify-content: space-between; font-size: 14px; }
+.summary-row span:first-child { color: var(--text-secondary); }
+.summary-total { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.summary-total span { font-weight: 600; }
+.summary-total strong { font-size: 20px; font-weight: 800; }
+.payment-info { display: flex; flex-direction: column; gap: 4px; font-size: 13px; padding-top: 8px; border-top: 1px solid var(--border-light); }
+.paid { color: #16a34a; font-weight: 600; }
+.unpaid { color: var(--text-secondary); }
+
+.shipping-card { padding: 20px; }
+.shipping-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 12px; }
+.shipping-card p { font-size: 14px; color: var(--text-secondary); margin-bottom: 4px; }
+.shipping-card p strong { color: var(--text-primary); }
+
+@media (max-width: 900px) {
+  .order-detail-layout { grid-template-columns: 1fr; }
+}

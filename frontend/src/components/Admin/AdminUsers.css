@@ -1,0 +1,8 @@
+.user-cell { display: flex; align-items: center; gap: 10px; }
+.user-avatar-mini {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--accent); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.email-cell { font-size: 13px; color: var(--text-secondary); }
