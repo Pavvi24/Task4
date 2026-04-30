@@ -14,7 +14,7 @@ const SORT_OPTIONS = [
 const Products = () => {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-  const [pagination, setPagination] = useState({});
+  const [pagination, setPagination] = useState({ total: 0, pages: 1, page: 1 });
   const [loading, setLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
 
@@ -35,8 +35,16 @@ const Products = () => {
       if (maxPrice) params.maxPrice = maxPrice;
 
       const res = await getProducts(params);
-      setProducts(res.data.products);
-      setPagination(res.data.pagination);
+
+      // ✅ FIXED HERE
+      setProducts(res.data.products || []);
+
+      setPagination({
+        total: res.data.total || 0,
+        pages: res.data.pages || 1,
+        page: res.data.page || 1
+      });
+
     } catch (err) {
       console.error(err);
     } finally {
@@ -45,10 +53,12 @@ const Products = () => {
   }, [page, sort, category, search, minPrice, maxPrice]);
 
   useEffect(() => {
-    getCategories().then(res => setCategories(res.data.categories));
+    getCategories().then(res => setCategories(res.data.categories || []));
   }, []);
 
-  useEffect(() => { fetchProducts(); }, [fetchProducts]);
+  useEffect(() => {
+    fetchProducts();
+  }, [fetchProducts]);
 
   const updateParam = (key, value) => {
     const params = Object.fromEntries(searchParams.entries());
@@ -64,6 +74,7 @@ const Products = () => {
     <div className="products-page">
       <div className="page-container">
         <div className="products-layout">
+
           {/* Sidebar Filters */}
           <aside className="filters-sidebar">
             <div className="filter-header">
@@ -114,8 +125,9 @@ const Products = () => {
             <div className="products-toolbar">
               <div className="results-info">
                 {search && <span>Results for "<strong>{search}</strong>"</span>}
-                {!loading && <span className="result-count">{pagination.total || 0} products</span>}
+                {!loading && <span className="result-count">{pagination.total} products</span>}
               </div>
+
               <div className="sort-control">
                 <label>Sort by:</label>
                 <select
@@ -123,7 +135,9 @@ const Products = () => {
                   onChange={(e) => updateParam('sort', e.target.value)}
                   className="sort-select"
                 >
-                  {SORT_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
+                  {SORT_OPTIONS.map(o => (
+                    <option key={o.value} value={o.value}>{o.label}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -140,7 +154,9 @@ const Products = () => {
             ) : (
               <>
                 <div className="products-grid-main">
-                  {products.map(p => <ProductCard key={p._id} product={p} />)}
+                  {products.map(p => (
+                    <ProductCard key={p._id} product={p} />
+                  ))}
                 </div>
 
                 {pagination.pages > 1 && (
@@ -159,6 +175,7 @@ const Products = () => {
               </>
             )}
           </main>
+
         </div>
       </div>
     </div>
